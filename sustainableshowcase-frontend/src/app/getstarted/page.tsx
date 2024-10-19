@@ -6,10 +6,30 @@ import { useState } from "react";
 export default function page() {
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
+
+      // Create a form data object to send the file
+      const formData = new FormData();
+      formData.append("username", "YourUsername"); // Change this to a dynamic username if needed
+      formData.append("image", file);
+
+      try {
+        const response = await fetch("http://localhost:5050/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("Image uploaded successfully");
+        } else {
+          console.error("Image upload failed");
+        }
+      } catch (error) {
+        console.error("Error uploading image", error);
+      }
     }
   };
 
@@ -17,7 +37,7 @@ export default function page() {
     <div className="min-h-screen bg-gradient-to-br from-green-700 to-black">
       <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
         <div className="flex justify-between">
-          <h1 className="font-serif text-3xl font-medium">PepsiCo Sustainability Challenge</h1>
+          <h1 className="font-serif text-3xl font-medium">PepsiCo Sustainable Showcase </h1>
         </div>
 
         <div className="h-10"></div>
