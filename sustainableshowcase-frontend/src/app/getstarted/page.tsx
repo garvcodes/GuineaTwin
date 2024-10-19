@@ -1,19 +1,20 @@
-'use client'
+'use client';
 import Image from "next/image";
-import Link from 'next/link'
+import Link from 'next/link';
 import { useState } from "react";
 
-export default function page() {
+export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [email, setEmail] = useState("garv5114@gmail.com"); // State to hold the email
 
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
 
-      // Create a form data object to send the file
+      // Create a form data object to send the file and email
       const formData = new FormData();
-      formData.append("username", "YourUsername"); // Change this to a dynamic username if needed
+      formData.append("email", email); // Use the email from the state
       formData.append("image", file);
 
       try {
@@ -34,7 +35,7 @@ export default function page() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 to-black">
+    <div className="min-h-screen bg-gradient-to-br from-green-500 to-green-300">
       <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
         <div className="flex justify-between">
           <h1 className="font-serif text-3xl font-medium">PepsiCo Sustainable Showcase </h1>
@@ -53,13 +54,22 @@ export default function page() {
         </ol>
 
         <div className="h-10"></div>
-        
+
         <div className="flex flex-col items-center">
+          <input
+            type="email" // Input type for email
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} // Update email state
+            className="text-gray-300 mb-4 p-2 border rounded"
+            required // Make it a required field
+          />
           <input
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
             className="text-gray-300"
+            required // Make it a required field
           />
           {selectedImage && (
             <div className="mt-6">
