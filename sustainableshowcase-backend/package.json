@@ -1,0 +1,15 @@
+{
+  "name": "sustainableshowcase-backend",
+  "version": "1.0.0",
+  "description": "Backend API for handling image uploads and leaderboard ranks",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^8.7.2",
+    "multer": "^1.4.3"
+  }
+}
