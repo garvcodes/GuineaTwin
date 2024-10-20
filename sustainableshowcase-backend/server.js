@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Google AI setup
-const fileManager = new GoogleAIFileManager('process.env.API_KEY');
-const genAI = new GoogleGenerativeAI('process.env.API_KEY');
+const fileManager = new GoogleAIFileManager(process.env.API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 // Route to handle file upload
 app.post("/upload", upload.single("image"), async (req, res) => {
@@ -103,6 +103,60 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     res.status(500).send("Error uploading image");
   }
 });
+
+
+app.post("/upload-creation", upload.single("image"), async (req, res) => {
+  try {
+    const { email } = req.body;
+    const image = req.file;
+
+    if (!email || !image) {
+      return res.status(400).send("Email and image are required");
+    }
+
+    // Create a new user with the uploaded image
+    const newUser = new User({
+      email,
+      image: image.buffer, // Store the image buffer
+      contentType: image.mimetype, // Store the MIME type
+    });
+
+    await newUser.save(); // Save the user with the image
+
+    return res.status(201).send("User and image saved successfully");
+  } catch (error) {
+    console.error("Error saving user or image", error);
+    return res.status(500).send("Internal server error");
+  }
+});
+
+app.get("/leaderboard", async (req, res) => {
+  try {
+    // Fetch all users with their images sorted by the most recent upload
+    const users = await User.aggregate([
+      {
+        $project: {
+          email: 1,
+          images: {
+            $slice: [
+              {
+                $sortArray: { input: "$images", sortBy: { uploadedAt: -1 } },
+              },
+              2,
+            ],
+          },
+        },
+      },
+    ]);
+
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching leaderboard", error);
+    res.status(500).send("Error fetching leaderboard");
+  }
+});
+
+
 
 // Start server
 const port = process.env.PORT || 5050;
