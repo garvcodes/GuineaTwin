@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import Image from "next/image";
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -8,16 +8,23 @@ export default function Home() {
       <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
         <div className="flex justify-between">
           <h1 className="font-serif text-3xl font-medium">PepsiCo Sustainability Challenge</h1>
-
-          
-          
         </div>
 
         <div className="h-32 md:h-40"></div>
 
-        <p className="font-sans text-4xl font-bold text-gray-200 max-w-5xl lg:text-7xl lg:pr-24 md:text-6xl">
-        Show us what you can create using America's favorite drink!
-        </p>
+        <div className="flex items-center bg-transparent">
+          <p className="font-sans text-4xl font-bold text-gray-200 max-w-5xl lg:text-7xl lg:pr-24 md:text-6xl">
+            Show us what you can create using America's favorite drink!
+          </p>
+          <Image
+            src="/pepsi-png-42984.png"
+            width={400} // Adjust width as needed
+            height={100} // Adjust height as needed
+            alt="Pepsi planter"
+            className="rounded-lg ml-4" // Add margin left for spacing
+          />
+        </div>
+
         <div className="h-10"></div>
         <p className="max-w-2xl font-serif text-xl text-gray-400 md:text-2xl">
           PepsiCo has been fueling American creativity for years, we're asking you to give us a little of that 
@@ -36,40 +43,35 @@ export default function Home() {
             <p className="font-serif text-xl text-gray-400 md:pr-10">
               After uploading a picture of your PepsiCo product, it will undergo analysis using the Google Gemini API. 
               Gemini will then issue you a challenge... 
-              A challenge to make something new out of something old! Using the prompt, gemini will create it's own rendition as well which 
+              A challenge to make something new out of something old! Using the prompt, Gemini will create its own rendition as well, which 
               you can use as inspiration in your creation!
             </p>
             <div className="h-8"></div>
             <div className="grid grid-cols-2 gap-4 pt-8 border-t border-green-700">
 
-              {/* Section for gemini picture examples*/}
-              {/* Picture 1*/}
+              {/* Section for Gemini picture examples */}
+              {/* Picture 1 */}
               <div>
-                <p className="font-semibold text-gray-400">Gemini's Image</p>
+                <p className="font-semibold text-gray-400">Gemini's Vision</p>
                 <div className="h-4">
-                <Image
-      src="/pepsiplanter.png"
-      width={500}
-      height={500}
-      alt="Picture of the author"
-    />
+                  <Image
+                    src="/pepsiplanter.png"
+                    width={500}
+                    height={500}
+                    alt="Picture of the author"
+                    className="rounded-xl mt-8"
+                  />
+                  <h1 className="text-xl mt-4">Gemini thought of a sustainable planter solution!</h1>
                 </div>
-                <p className="font-serif text-gray-400">
-          
-                </p>
+                <p className="font-serif text-gray-400"></p>
               </div>
 
-            {/* Picture 2*/}
+              {/* Picture 2 */}
               <div>
                 <p className="font-semibold text-gray-400">Your Creation!</p>
                 <div className="h-4"></div>
-                <p className="font-serif text-gray-400">
-              
-                </p>
+                <p className="font-serif text-gray-400"></p>
               </div>
-
-
-
 
             </div>
           </div>
@@ -78,19 +80,16 @@ export default function Home() {
           </div>
         </div>
 
-        <Link href = "/getstarted">
-        <button className = "mt-20 p-4 bg-green-300 text-white font-semibold  rounded-xl">
-          Get Started
-        </button>
+        <Link href="/getstarted">
+          <button className="mt-96 p-4 bg-green-300 text-white font-semibold rounded-xl">
+            Get Started
+          </button>
         </Link>
-
-
 
         <div className="flex justify-center pt-12 pb-8 text-gray-400">
           © 2024 All rights reserved
         </div>
-        </div>
+      </div>
     </div>
-
   );
-};
+}
