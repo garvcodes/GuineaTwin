@@ -130,6 +130,7 @@ app.post("/upload-creation", upload.single("image"), async (req, res) => {
   }
 });
 
+
 app.get("/leaderboard", async (req, res) => {
   try {
     // Fetch all users with their images sorted by the most recent upload
@@ -137,24 +138,28 @@ app.get("/leaderboard", async (req, res) => {
       {
         $project: {
           email: 1,
-          images: {
-            $slice: [
-              {
-                $sortArray: { input: "$images", sortBy: { uploadedAt: -1 } },
-              },
-              2,
-            ],
-          },
+          image: 1,
+          contentType: 1,
+          geminiUri: 1,
         },
       },
     ]);
 
-    res.json(users);
+    // Convert binary images to base64 and include them in the response
+    const usersWithImages = users.map((user) => ({
+      email: user.email,
+      contentType: user.contentType,
+      image: user.image ? user.image.toString('base64') : null, // Convert binary image to base64
+      geminiUri: user.geminiUri,
+    }));
+
+    res.json(usersWithImages);
   } catch (error) {
     console.error("Error fetching leaderboard", error);
     res.status(500).send("Error fetching leaderboard");
   }
 });
+
 
 
 
