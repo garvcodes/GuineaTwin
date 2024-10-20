@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import BubblyButton from '../../components/BubblyButton';
 import FileInputButton from '../../components/FileInputButton';
+import ReactMarkdown from 'react-markdown';
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -84,7 +85,7 @@ export default function Page() {
           Follow the steps below to upload your image and participate in the challenge:
         </p>
 
-        <ol className="list-decimal list-inside font-serif text-white text-2xl mt-6">
+        <ol className="list-decimal list-inside font-serif text-white text-2xl mt-6 mb-6">
           <li>Enter your email, this will be used to display your creation on our global leaderboard!</li>
         </ol>
 
@@ -100,7 +101,7 @@ export default function Page() {
             required
           />
 
-          <div className="list-decimal list-inside font-serif text-white text-2xl mt-6">
+          <div className="list-decimal list-inside font-serif text-white text-2xl mt-6 text-left">
             2. Upload an image of your PepsiCo product and let AI give you a challenge!
           </div>
 
@@ -119,7 +120,7 @@ export default function Page() {
           )}
         </div>
 
-        <div className="list-decimal list-inside font-serif text-white text-2xl mt-6">
+        <div className="list-decimal list-inside font-serif text-white text-2xl mt-6 text-left">
           3. Your AI Challenge will appear below, read it, dream it, and create it! Don't be afraid to let your personal creativity show!
         </div>
 
@@ -128,32 +129,38 @@ export default function Page() {
           {isLoading ? (
             <p>Loading AI Challenge...</p>
           ) : (
-            aiChallenge && <p>{aiChallenge}</p> // Display AI challenge once available
+            aiChallenge && (
+              <div className="bg-gray-800 p-4 rounded-md shadow-md mt-4 text-white">
+                <ReactMarkdown>{aiChallenge}</ReactMarkdown>
+              </div>
+            )
           )}
         </div>
 
         {aiChallenge && (
           <>
-            <div className="list-decimal list-inside font-serif text-white text-2xl mt-6">
+            <div className="list-decimal list-inside font-serif text-white text-2xl mt-6 text-left">
               4. Now that you have your challenge... it's all you! Use Gemini as inspiration and create something awesome.
               Afterwards, upload it for the world to see! Gemini will assign your submission a score based on its rubric, and the world can show love as well!
             </div>
-            
-            <div className="mt-6">
+
+            <div className="flex flex-col items-center">
               <p className="text-white text-xl mb-4">Upload your creation:</p>
-              <input
-                type="file"
-                accept="image/*"
+              <FileInputButton
                 onChange={handleCreationUpload}
-                className="text-gray-300"
+                accept="image/*"
                 required
+                text="Upload Image"
+                color="#fff"
+                bgColor="#4CAF50"
               />
-              {userCreation && (
-                <div className="mt-6">
-                  <Image src={userCreation} alt="User's Creation" width={500} height={500} />
-                </div>
-              )}
             </div>
+
+            {userCreation && (
+              <div className="mt-6">
+                <Image src={userCreation} alt="User's Creation" width={500} height={500} />
+              </div>
+            )}
           </>
         )}
 
