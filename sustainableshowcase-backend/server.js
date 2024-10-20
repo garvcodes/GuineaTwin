@@ -79,10 +79,13 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     newUser.geminiUri = uploadResult.file.uri;
     await newUser.save();
 
+    // read file
+    const pepsico_product_list = fs.readFileSync('uploads/pepsico.txt', 'utf-8')
+
     // Generate content using the uploaded image
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent([
-      "Tell me how many pepsi cans are in this image. And give me examples of a sustainable project I can make with them.",
+      'Here is a full list of Pepsico products:\n ${pepsico_product_list}. Is the object in the image a Pepsico product? If not, reply \'This is not a Pepsico product, please take a photo of a Pepsico product!\' If it is a pepsico product, describe how many and what brands they are. Then, give me an easy-to-follow instruction for upcycling projects with this object. the project has to be creative, environment-friendly, and fun to make. Give me only one but a different one each time',
       {
         fileData: {
           fileUri: uploadResult.file.uri,
