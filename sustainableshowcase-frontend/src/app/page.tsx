@@ -1,10 +1,17 @@
 'use client';
 import Image from "next/image";
 import Link from 'next/link';
+import BubblyButton from '../components/BubblyButton';
+
 
 export default function Home() {
+  const handleGetStarted = () => {
+    // Navigate to the getstarted page
+    window.location.href = '/getstarted';
+  };
+
   return (
-    <div className="bg-gradient-to-br from-green-700 to-black">
+    <div className="bg-gradient-to-br from-green-700 to-black"> 
       <div className="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
         <div className="flex justify-between">
           <h1 className="font-serif text-3xl font-medium">PepsiCo Sustainability Challenge</h1>
@@ -80,11 +87,14 @@ export default function Home() {
           </div>
         </div>
 
-        <Link href="/getstarted">
-          <button className="mt-96 p-4 bg-green-300 text-white font-semibold rounded-xl">
-            Get Started
-          </button>
-        </Link>
+        <div className="mt-20">
+            <BubblyButton 
+              text="Get Started" 
+              onClick={handleGetStarted} 
+              color="#ffffff" 
+              bgColor="#22c55e"  // This is a green color similar to bg-green-500
+            />
+          </div>
 
         <div className="flex justify-center pt-12 pb-8 text-gray-400">
           © 2024 All rights reserved

@@ -1,6 +1,8 @@
 'use client';
 import Image from "next/image";
 import { useState } from "react";
+import BubblyButton from '../../components/BubblyButton';
+import FileInputButton from '../../components/FileInputButton';
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -101,12 +103,13 @@ export default function Page() {
             2. Upload an image of your PepsiCo product and let AI give you a challenge!
           </div>
 
-          <input
-            type="file"
-            accept="image/*"
+          <FileInputButton
             onChange={handleImageUpload}
-            className="text-gray-300"
+            accept="image/*"
             required
+            text="Upload Image"
+            color="#fff"
+            bgColor="#4CAF50"
           />
           {selectedImage && (
             <div className="mt-6">
