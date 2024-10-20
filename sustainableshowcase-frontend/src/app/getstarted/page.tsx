@@ -31,6 +31,7 @@ export default function Page() {
         if (response.ok) {
           const responseData = await response.json();
           setAiChallenge(responseData.geminiResponse); // Set the AI challenge text
+          console.log("Received AI response:", responseData.geminiResponse);
           setIsLoading(false); // Set loading to false after receiving the response
         } else {
           console.error("Image upload failed");
@@ -137,7 +138,7 @@ export default function Page() {
               4. Now that you have your challenge... it's all you! Use Gemini as inspiration and create something awesome.
               Afterwards, upload it for the world to see! Gemini will assign your submission a score based on its rubric, and the world can show love as well!
             </div>
-
+            
             <div className="mt-6">
               <p className="text-white text-xl mb-4">Upload your creation:</p>
               <input

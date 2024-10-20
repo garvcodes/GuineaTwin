@@ -4,12 +4,15 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("path");
+const cors = require('cors');
+const app = express();
 const { GoogleAIFileManager } = require("@google/generative-ai/server");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 dotenv.config();
 
-const app = express();
+// Enable CORS for all routes
+app.use(cors());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
