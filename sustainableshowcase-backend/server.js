@@ -16,9 +16,13 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.log("MongoDB connection error:", error));
 
+
+
+
 // Multer setup for file storage
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+
 
 // MongoDB schema for User and image
 const userSchema = new mongoose.Schema({
@@ -31,12 +35,13 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Google AI setup
-const fileManager = new GoogleAIFileManager(process.env.API_KEY);
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+const fileManager = new GoogleAIFileManager('process.env.API_KEY');
+const genAI = new GoogleGenerativeAI('process.env.API_KEY');
 
 // Route to handle file upload
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
+
     const { email } = req.body;
     const image = req.file;
 
@@ -65,7 +70,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       displayName: `${email}-image`,
     });
 
-    console.log(`Uploaded file ${uploadResult.file.displayName} as: ${uploadResult.file.uri}`);
+    console.log(`Uploaded file ${uploadResult.file.displayName} as: ${uploadResult.file.uri} `);
 
     // Store Gemini URI in the user record
     newUser.geminiUri = uploadResult.file.uri;
@@ -74,7 +79,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     // Generate content using the uploaded image
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent([
-      "Tell me about this image.",
+      "Tell me how many pepsi cans are in this image. And give me examples of a sustainable project I can make with them.",
       {
         fileData: {
           fileUri: uploadResult.file.uri,
@@ -82,6 +87,8 @@ app.post("/upload", upload.single("image"), async (req, res) => {
         },
       },
     ]);
+
+    console.log(JSON.stringify(result, null, 2))
 
     // Clean up the temporary file after upload
     fs.unlinkSync(tempFilePath); // Remove the temporary file
